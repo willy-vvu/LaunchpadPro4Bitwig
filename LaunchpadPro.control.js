@@ -17,7 +17,7 @@ host.defineMidiPorts (1, 1);
 
 host.platformIsWindows () && host.addDeviceNameBasedDiscoveryPair (["MIDIIN2 (Launchpad Pro)"], ["MIDIOUT2 (Launchpad Pro)"]);
 host.platformIsLinux () && host.addDeviceNameBasedDiscoveryPair (["Launchpad Pro MIDI 2"], ["Launchpad Pro MIDI 2"]);
-host.platformIsMac () && host.addDeviceNameBasedDiscoveryPair (["Launchpad Pro User Port"], ["Launchpad Pro User Port"]);
+host.platformIsMac () && host.addDeviceNameBasedDiscoveryPair (["Launchpad Pro Standalone Port"], ["Launchpad Pro Standalone Port"]);
 
 function init ()
 {

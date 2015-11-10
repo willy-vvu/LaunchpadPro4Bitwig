@@ -128,7 +128,7 @@ PlayView.prototype.onPolyAftertouch = function (note, value)
         
         case -2:
             // Translate notes of Poly aftertouch to current note mapping
-            this.surface.sendMidiEvent (0xA0, this.noteMap[note], value);
+            this.surface.sendMidiEvent (0xA0, this.noteMap[this.surface.pads.translateToGrid (note)], value);
             break;
         
         case -1:

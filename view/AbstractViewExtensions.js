@@ -404,12 +404,6 @@ AbstractView.prototype.updateArrows = function ()
     this.surface.setButton (LAUNCHPAD_BUTTON_DOWN, this.canScrollDown ? this.cursorColor : LAUNCHPAD_BUTTON_STATE_OFF);
 };
 
-AbstractView.prototype.canSelectedTrackHoldNotes = function ()
-{
-    var t = this.model.getCurrentTrackBank ().getSelectedTrack ();
-    return t != null && t.canHoldNotes;
-};
-
 AbstractView.prototype.setShowDevices = function (enable)
 {
     this.showDevices = enable;

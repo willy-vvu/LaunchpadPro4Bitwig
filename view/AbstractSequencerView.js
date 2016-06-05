@@ -61,7 +61,7 @@ AbstractSequencerView.prototype.onScene = function (index, event)
 {
     if (!event.isDown ())
         return;
-    if (!this.canSelectedTrackHoldNotes ())
+    if (!this.model.canSelectedTrackHoldNotes ())
         return;
     this.selectedIndex = 7 - index;
     this.clip.setStepLength (this.resolutions[this.selectedIndex]);
@@ -71,7 +71,7 @@ AbstractSequencerView.prototype.onScene = function (index, event)
 
 AbstractSequencerView.prototype.drawSceneButtons = function ()
 {
-    if (this.canSelectedTrackHoldNotes ())
+    if (this.model.canSelectedTrackHoldNotes ())
     {
         this.surface.setButton (LAUNCHPAD_BUTTON_SCENE1, this.selectedIndex == 7 ? LAUNCHPAD_COLOR_YELLOW : LAUNCHPAD_COLOR_GREEN);
         this.surface.setButton (LAUNCHPAD_BUTTON_SCENE2, this.selectedIndex == 6 ? LAUNCHPAD_COLOR_YELLOW : LAUNCHPAD_COLOR_GREEN);

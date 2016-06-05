@@ -68,7 +68,7 @@ PlayView.prototype.onActivate = function ()
 
 PlayView.prototype.updateSceneButtons = function (buttonID)
 {
-    if (this.canSelectedTrackHoldNotes ())
+    if (this.model.canSelectedTrackHoldNotes ())
     {
         this.surface.setButton (LAUNCHPAD_BUTTON_SCENE1, LAUNCHPAD_COLOR_OCEAN_HI);
         this.surface.setButton (LAUNCHPAD_BUTTON_SCENE2, LAUNCHPAD_COLOR_OCEAN_HI);
@@ -94,7 +94,7 @@ PlayView.prototype.updateSceneButtons = function (buttonID)
 
 PlayView.prototype.drawGrid = function ()
 {
-    var isKeyboardEnabled = this.canSelectedTrackHoldNotes ();
+    var isKeyboardEnabled = this.model.canSelectedTrackHoldNotes ();
     var isRecording = this.model.hasRecordingState ();
 
     for (var i = 36; i < 100; i++)
@@ -107,7 +107,7 @@ PlayView.prototype.drawGrid = function ()
 
 PlayView.prototype.onGridNote = function (note, velocity)
 {
-    if (!this.canSelectedTrackHoldNotes () || this.noteMap[note] == -1)
+    if (!this.model.canSelectedTrackHoldNotes () || this.noteMap[note] == -1)
         return;
     
     // Mark selected notes
@@ -147,7 +147,7 @@ PlayView.prototype.onScene = function (scene, event)
 {
     if (!event.isDown ())
         return;
-    if (!this.canSelectedTrackHoldNotes ())
+    if (!this.model.canSelectedTrackHoldNotes ())
         return;
     switch (scene)
     {
@@ -235,6 +235,6 @@ PlayView.prototype.clearPressedKeys = function ()
 
 PlayView.prototype.delayedUpdateNoteMapping = function ()
 {
-    this.noteMap = this.canSelectedTrackHoldNotes () ? this.scales.getNoteMatrix () : this.scales.getEmptyMatrix ();
+    this.noteMap = this.model.canSelectedTrackHoldNotes () ? this.scales.getNoteMatrix () : this.scales.getEmptyMatrix ();
     this.surface.setKeyTranslationTable (this.scales.translateMatrixToGrid (this.noteMap));
 };

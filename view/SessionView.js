@@ -61,7 +61,10 @@ SessionView.prototype.onGridNote = function (note, velocity)
 {
     if (this.surface.getControlMode () == CONTROL_MODE_OFF)
     {
-        AbstractSessionView.prototype.onGridNote.call (this, note, velocity);
+        if (this.surface.isShiftPressed ())
+            this.onGridNoteBankSelection (note, velocity, false);
+        else
+            AbstractSessionView.prototype.onGridNote.call (this, note, velocity);
         return;
     }
     
@@ -69,7 +72,10 @@ SessionView.prototype.onGridNote = function (note, velocity)
     if (note >= 44)
     {
         // Translate the 7 other rows down
-        AbstractSessionView.prototype.onGridNote.call (this, note - 8, velocity);
+        if (this.surface.isShiftPressed ())
+            this.onGridNoteBankSelection (note, velocity, true);
+        else
+            AbstractSessionView.prototype.onGridNote.call (this, note - 8, velocity);
         return;
     }
     
@@ -104,8 +110,69 @@ SessionView.prototype.onGridNote = function (note, velocity)
     }
 };
 
+SessionView.prototype.onGridNoteBankSelection = function (note, velocity, isOffset)
+{
+    if (velocity == 0)
+        return;
+    
+    if (isOffset)
+        note = note - 8;
+
+    var index = note - 36;
+    var x = index % this.columns;
+    var y = (this.rows - 1) - Math.floor (index / this.columns);
+
+    var tb = this.model.getCurrentTrackBank ();
+    
+    // Calculate page offsets
+    var trackPosition = Math.floor (tb.getTrack (0).position / tb.numTracks);
+    var scenePosition = Math.floor (tb.getScenePosition () / tb.numScenes);
+    var selX = this.flip ? scenePosition : trackPosition;
+    var selY = this.flip ? trackPosition : scenePosition;
+    var padsX = this.flip ? this.rows : this.columns;
+    var padsY = this.flip ? this.columns : (isOffset ? this.rows + 1 : this.rows);
+    var offsetX = Math.floor (selX / padsX) * padsX;
+    var offsetY = Math.floor (selY / padsY) * padsY;
+    tb.scrollToChannel (offsetX * tb.numTracks + (this.flip ? y : x) * padsX);
+    tb.scrollToScene (offsetY * tb.numScenes + (this.flip ? x : y) * padsY);
+};
+
 SessionView.prototype.drawGrid = function ()
 {
+    if (this.surface.isShiftPressed ())
+    {
+        var tb = this.model.getCurrentTrackBank ();
+        var maxScenePads = Math.ceil (this.model.getSceneBank ().getSceneCount () / tb.numScenes);
+        var maxTrackPads = Math.ceil (tb.getTrackCount () / tb.numTracks);
+        var trackPosition = Math.floor (tb.getTrack (0).position / tb.numTracks);
+        var scenePosition = Math.floor (tb.getScenePosition () / tb.numScenes);
+        var selX = this.flip ? scenePosition : trackPosition;
+        var selY = this.flip ? trackPosition : scenePosition;
+        var padsX = this.flip ? this.rows : this.columns;
+        var padsY = this.flip ? this.columns : this.rows;
+        var offsetX = Math.floor (selX / padsX) * padsX;
+        var offsetY = Math.floor (selY / padsY) * padsY;
+        var maxX = (this.flip ? maxScenePads : maxTrackPads) - offsetX; 
+        var maxY = (this.flip ? maxTrackPads : maxScenePads) - offsetY;
+        selX -= offsetX;
+        selY -= offsetY;
+        
+        var color = null;
+        for (var x = 0; x < this.columns; x++)
+        {
+            var rowColor = x < maxX ? AbstractSessionView.CLIP_COLOR_HAS_CONTENT : AbstractSessionView.CLIP_COLOR_NO_CONTENT; 
+            for (var y = 0; y < this.rows; y++)
+            {
+                color = y < maxY ? rowColor : AbstractSessionView.CLIP_COLOR_NO_CONTENT;
+                if (selX == x && selY == y)
+                    color = AbstractSessionView.CLIP_COLOR_IS_PLAYING;
+                this.surface.pads.lightEx (x, y, color.color, color.blink, color.fast);
+            }
+        }
+        
+        return;
+    }
+    
     var controlMode = this.surface.getControlMode ();
     var isOff = controlMode == CONTROL_MODE_OFF;
     this.rows = isOff ? 8 : 7;

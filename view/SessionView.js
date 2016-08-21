@@ -1,5 +1,5 @@
 // Written by Jürgen Moßgraber - mossgrabers.de
-// (c) 2015
+// (c) 2015-2016
 // Licensed under LGPLv3 - http://www.gnu.org/licenses/lgpl-3.0.txt
 
 function SessionView (model)
@@ -82,8 +82,6 @@ SessionView.prototype.onGridNote = function (note, velocity)
     if (velocity == 0)
         return;
 
-    this.firstRowUsed = true;
-    
     var index = note - 36;
     var tb = this.model.getCurrentTrackBank ();
     switch (this.surface.getControlMode ())

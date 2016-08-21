@@ -7,7 +7,8 @@ AbstractView.prototype.showDevices = true;
 AbstractView.prototype.lastAbstractDeviceMode = 0;
 AbstractView.prototype.cursorColor = LAUNCHPAD_COLOR_OCEAN_HI;
     
-AbstractView.prototype.firstRowUsed = false;
+AbstractView.firstRowUsed  = false;
+AbstractView.temporaryView = false;
 
 AbstractView.prototype.updateIndication = function ()
 {
@@ -197,31 +198,47 @@ AbstractView.prototype.onStopClip = function (event)
 
 AbstractView.prototype.onModeButton = function (event, controlMode, notification)
 {
-    if (event.isUp ())
+    if (event.isDown ())
     {
-        if (this.firstRowUsed || this.surface.getPreviousControlMode () == controlMode)
-            this.surface.setControlMode (CONTROL_MODE_OFF);
-    }
-    else if (event.isDown ())
-    {
-        this.firstRowUsed = false;
+        AbstractView.firstRowUsed = false;
         this.surface.setControlMode (controlMode);
         this.surface.setActiveView (VIEW_SESSION);
         displayNotification (notification);
+    }
+    else if (event.isLong ())
+        AbstractView.firstRowUsed = true;
+    else if (event.isUp ())
+    {
+        if (AbstractView.firstRowUsed || this.surface.getPreviousControlMode () == controlMode)
+            this.surface.setControlMode (CONTROL_MODE_OFF);
     }
 };
 
 AbstractView.prototype.onFaderModeButton = function (event, view, notification)
 {
-    if (!event.isDown ())
-        return;
-    this.surface.setControlMode (CONTROL_MODE_OFF);
-    if (this.surface.isActiveView (view))
-        this.surface.setActiveView (VIEW_SESSION);
-    else
+    if (event.isDown ())
     {
-        this.surface.setActiveView (view);
-        displayNotification (notification);
+        if (this.surface.isActiveView (view))        
+        {
+            this.surface.restoreView ();
+        }
+        else
+        {
+            AbstractView.temporaryView = false;
+            this.surface.setControlMode (CONTROL_MODE_OFF);
+            this.surface.setActiveView (view);
+            displayNotification (notification);
+        }
+    }
+    else if (event.isLong ())
+        AbstractView.temporaryView = true;
+    else if (event.isUp ())
+    {
+        if (AbstractView.temporaryView)
+        {
+            this.surface.restoreView ();
+            AbstractView.temporaryView = false;
+        }
     }
 };
 

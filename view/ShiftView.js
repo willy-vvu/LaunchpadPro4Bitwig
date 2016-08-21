@@ -151,7 +151,7 @@ ShiftView.prototype.handleFunctions = function (note, velocity)
             this.newClip ();
             break;
         case 53:
-            this.model.getTransport ().play ();
+            this.handlePlayOptions ();
             break;
         case 44:
             this.model.getTransport ().record ();

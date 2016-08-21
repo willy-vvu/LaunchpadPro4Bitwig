@@ -137,6 +137,11 @@ SessionView.prototype.onGridNoteBankSelection = function (note, velocity, isOffs
     tb.scrollToScene (offsetY * tb.numScenes + (this.flip ? x : y) * padsY);
 };
 
+SessionView.prototype.doSelectClipOnLaunch = function ()
+{
+    return Config.selectClipOnLaunch;
+};
+
 SessionView.prototype.drawGrid = function ()
 {
     if (this.surface.isShiftPressed ())

@@ -144,6 +144,7 @@ SessionView.prototype.doSelectClipOnLaunch = function ()
 
 SessionView.prototype.drawGrid = function ()
 {
+    // Draw 8 block clip navigation
     if (this.surface.isShiftPressed ())
     {
         var tb = this.model.getCurrentTrackBank ();
@@ -174,15 +175,13 @@ SessionView.prototype.drawGrid = function ()
                 this.surface.pads.lightEx (x, y, color.color, color.blink, color.fast);
             }
         }
-        
-        return;
     }
+    else
+        AbstractSessionView.prototype.drawGrid.call (this);
     
     var controlMode = this.surface.getControlMode ();
     var isOff = controlMode == CONTROL_MODE_OFF;
     this.rows = isOff ? 8 : 7;
-    
-    AbstractSessionView.prototype.drawGrid.call (this);
     
     if (isOff)
         return;

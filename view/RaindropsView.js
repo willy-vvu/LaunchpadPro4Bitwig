@@ -113,6 +113,9 @@ RaindropsView.prototype.drawGrid = function ()
     if (this.ongoingResolutionChange)
         return;
 
+    var tb = this.model.getCurrentTrackBank ();
+    var selectedTrack = tb.getSelectedTrack ();
+
     var length = this.clip.getLoopLength () / this.resolutions[this.selectedIndex];
     var step = this.clip.getCurrentStep ();
     for (var x = 0; x < RaindropsView.NUM_DISPLAY_COLS; x++)
@@ -125,7 +128,7 @@ RaindropsView.prototype.drawGrid = function ()
 
         for (var y = 0; y < RaindropsView.NUM_DISPLAY_ROWS; y++)
         {
-            var color = y == 0 ? this.scales.getColor (this.noteMap, x) : LAUNCHPAD_COLOR_BLACK;
+            var color = y == 0 ? this.getColor (x, selectedTrack) : LAUNCHPAD_COLOR_BLACK;
             if (isOn)
             {
                 if (y == distance)

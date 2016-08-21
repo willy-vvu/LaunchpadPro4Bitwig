@@ -111,6 +111,9 @@ SequencerView.prototype.updateOctave = function (value)
 
 SequencerView.prototype.drawGrid = function ()
 {
+    var tb = this.model.getCurrentTrackBank ();
+    var selectedTrack = tb.getSelectedTrack ();
+    
     var isKeyboardEnabled = this.model.canSelectedTrackHoldNotes ();
     var step = this.clip.getCurrentStep ();
     var hiStep = this.isInXRange (step) ? step % SequencerView.NUM_DISPLAY_COLS : -1;
@@ -122,7 +125,7 @@ SequencerView.prototype.drawGrid = function ()
             var isSet = this.clip.getStep (x, row);
             var hilite = x == hiStep;
             if (isKeyboardEnabled)
-                this.surface.pads.lightEx (x, 7 - y, isSet ? (hilite ? LAUNCHPAD_COLOR_GREEN_HI : LAUNCHPAD_COLOR_BLUE) : hilite ? LAUNCHPAD_COLOR_GREEN_HI : this.scales.getColor (this.noteMap, y), null, false);
+                this.surface.pads.lightEx (x, 7 - y, isSet ? (hilite ? LAUNCHPAD_COLOR_GREEN_HI : LAUNCHPAD_COLOR_BLUE) : hilite ? LAUNCHPAD_COLOR_GREEN_HI : this.getColor (y, selectedTrack), null, false);
             else
                 this.surface.pads.lightEx (x, 7 - y, LAUNCHPAD_COLOR_BLACK, null, false);
         }

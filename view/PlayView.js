@@ -97,11 +97,14 @@ PlayView.prototype.drawGrid = function ()
     var isKeyboardEnabled = this.model.canSelectedTrackHoldNotes ();
     var isRecording = this.model.hasRecordingState ();
 
+    var tb = this.model.getCurrentTrackBank ();
+    var selectedTrack = tb.getSelectedTrack ();
+
     for (var i = 36; i < 100; i++)
     {
         this.surface.pads.light (i, isKeyboardEnabled ? (this.pressedKeys[i] > 0 ?
             (isRecording ? LAUNCHPAD_COLOR_RED_HI : LAUNCHPAD_COLOR_GREEN_HI) :
-            this.scales.getColor (this.noteMap, i)) : LAUNCHPAD_COLOR_BLACK, null, false);
+            this.getColor (i, selectedTrack)) : LAUNCHPAD_COLOR_BLACK, null, false);
     }
 };
 

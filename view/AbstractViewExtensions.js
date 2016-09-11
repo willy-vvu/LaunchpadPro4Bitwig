@@ -419,6 +419,7 @@ AbstractView.prototype.updateArrows = function ()
     this.surface.setButton (LAUNCHPAD_BUTTON_RIGHT, this.canScrollRight ? this.cursorColor : LAUNCHPAD_BUTTON_STATE_OFF);
     this.surface.setButton (LAUNCHPAD_BUTTON_UP, this.canScrollUp ? this.cursorColor : LAUNCHPAD_BUTTON_STATE_OFF);
     this.surface.setButton (LAUNCHPAD_BUTTON_DOWN, this.canScrollDown ? this.cursorColor : LAUNCHPAD_BUTTON_STATE_OFF);
+    this.updateSceneButtons ();
 };
 
 AbstractView.prototype.setShowDevices = function (enable)

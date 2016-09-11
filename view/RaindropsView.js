@@ -32,8 +32,6 @@ RaindropsView.prototype.updateArrowStates = function ()
     this.canScrollDown = false;
     this.canScrollLeft = this.offsetY - RaindropsView.NUM_OCTAVE >= 0;
     this.canScrollRight = this.offsetY + RaindropsView.NUM_OCTAVE <= this.clip.getRowSize () - RaindropsView.NUM_OCTAVE;
-
-    this.drawSceneButtons ();
 };
 
 RaindropsView.prototype.updateNoteMapping = function ()

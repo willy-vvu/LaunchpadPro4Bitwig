@@ -33,7 +33,6 @@ DeviceView.prototype.onActivate = function ()
     AbstractView.prototype.onActivate.call (this);
 
     this.updateIndication ();
-    this.drawSceneButtons ();
     
     for (var i = 0; i < 8; i++)
         this.setupFader (i);
@@ -64,7 +63,7 @@ DeviceView.prototype.onFader = function (index, value)
         this.cursorDevice.getMacro (index).getAmount ().set (value, Config.maxParameterValue);
 };
 
-DeviceView.prototype.drawSceneButtons = function (buttonID)
+DeviceView.prototype.updateSceneButtons = function (buttonID)
 {
     this.surface.setButton (LAUNCHPAD_BUTTON_SCENE1, this.isParamMode ? LAUNCHPAD_COLOR_AMBER : LAUNCHPAD_COLOR_BLACK);
     this.surface.setButton (LAUNCHPAD_BUTTON_SCENE2, !this.isParamMode ? LAUNCHPAD_COLOR_AMBER : LAUNCHPAD_COLOR_BLACK);
@@ -92,7 +91,6 @@ DeviceView.prototype.onGridNote = function (note, velocity)
 
 DeviceView.prototype.onScene = function (scene, event)
 {
-    this.drawSceneButtons ();
     this.updateIndication ();
     
     if (!event.isDown ())

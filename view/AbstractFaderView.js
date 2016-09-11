@@ -17,10 +17,7 @@ AbstractFaderView.prototype = new SessionView ();
 
 AbstractFaderView.prototype.updateNoteMapping = function () {};
 AbstractFaderView.prototype.onGridNote = function (note, velocity) {};
-AbstractFaderView.prototype.onScene = function (scene, event)
-{
-    this.drawSceneButtons ();
-};
+AbstractFaderView.prototype.onScene = function (scene, event) {};
 
 AbstractFaderView.prototype.onActivate = function ()
 {
@@ -49,7 +46,7 @@ AbstractFaderView.prototype.setupFader = function (index)
     this.surface.setupFader (index, track.color == null ? 0 : track.color);
 };
 
-AbstractFaderView.prototype.drawSceneButtons = function (buttonID)
+AbstractFaderView.prototype.updateSceneButtons = function (buttonID)
 {
     this.surface.setButton (LAUNCHPAD_BUTTON_SCENE1, LAUNCHPAD_COLOR_BLACK);
     this.surface.setButton (LAUNCHPAD_BUTTON_SCENE2, LAUNCHPAD_COLOR_BLACK);

@@ -22,7 +22,7 @@ SessionView.prototype.onActivate = function ()
     this.updateIndication ();
 };
 
-SessionView.prototype.drawSceneButtons = function ()
+SessionView.prototype.updateSceneButtons = function ()
 {
     this.surface.setButton (LAUNCHPAD_BUTTON_SCENE1, LAUNCHPAD_COLOR_GREEN);
     this.surface.setButton (LAUNCHPAD_BUTTON_SCENE2, LAUNCHPAD_COLOR_GREEN);

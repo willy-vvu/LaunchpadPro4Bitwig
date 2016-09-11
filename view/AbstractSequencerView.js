@@ -35,7 +35,6 @@ AbstractSequencerView.prototype.onActivate = function ()
     this.surface.setButton (LAUNCHPAD_BUTTON_DEVICE, LAUNCHPAD_COLOR_GREY_LO);
 
     this.model.getCurrentTrackBank ().setIndication (false);
-    this.drawSceneButtons ();
     this.updateIndication ();
 };
 
@@ -65,11 +64,10 @@ AbstractSequencerView.prototype.onScene = function (index, event)
         return;
     this.selectedIndex = 7 - index;
     this.clip.setStepLength (this.resolutions[this.selectedIndex]);
-    this.drawSceneButtons ();
     displayNotification (this.resolutionsStr[this.selectedIndex]);
 };
 
-AbstractSequencerView.prototype.drawSceneButtons = function ()
+AbstractSequencerView.prototype.updateSceneButtons = function ()
 {
     if (this.model.canSelectedTrackHoldNotes ())
     {

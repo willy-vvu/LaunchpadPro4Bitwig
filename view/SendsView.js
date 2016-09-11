@@ -17,7 +17,6 @@ SendsView.prototype.onScene = function (scene, event)
 {
     if (event.isDown ())
         this.selectedSend = scene;
-    this.drawSceneButtons ();
     this.updateIndication ();
 };
 
@@ -42,7 +41,7 @@ SendsView.prototype.drawGrid = function ()
     }
 };
 
-SendsView.prototype.drawSceneButtons = function ()
+SendsView.prototype.updateSceneButtons = function ()
 {
     this.surface.setButton (LAUNCHPAD_BUTTON_SCENE1, this.selectedSend == 0 ? LAUNCHPAD_COLOR_ORCHID : LAUNCHPAD_COLOR_BLACK);
     this.surface.setButton (LAUNCHPAD_BUTTON_SCENE2, this.selectedSend == 1 ? LAUNCHPAD_COLOR_ORCHID : LAUNCHPAD_COLOR_BLACK);

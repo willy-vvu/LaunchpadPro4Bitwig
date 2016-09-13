@@ -9,7 +9,7 @@ RaindropsView.START_KEY        = 36;
 
 function RaindropsView (model)
 {
-    AbstractSequencerView.call (this, model, 128, 32 * 16 /* Biggest number in Fixed Length */);
+    BaseSequencerView.call (this, model, 128, 32 * 16 /* Biggest number in Fixed Length */);
     this.offsetY = RaindropsView.START_KEY;
     this.clip.scrollTo (0, RaindropsView.START_KEY);
     
@@ -18,12 +18,12 @@ function RaindropsView (model)
     this.cursorColor = LAUNCHPAD_COLOR_GREEN;
     this.modeColor = LAUNCHPAD_COLOR_GREEN;
 }
-RaindropsView.prototype = new AbstractSequencerView ();
+RaindropsView.prototype = new BaseSequencerView ();
 
 RaindropsView.prototype.onActivate = function ()
 {
     this.updateScale ();
-    AbstractSequencerView.prototype.onActivate.call (this);
+    BaseSequencerView.prototype.onActivate.call (this);
 };
 
 RaindropsView.prototype.updateArrowStates = function ()
@@ -36,7 +36,7 @@ RaindropsView.prototype.updateArrowStates = function ()
 
 RaindropsView.prototype.updateNoteMapping = function ()
 {
-    AbstractSequencerView.prototype.updateNoteMapping.call (this);
+    BaseSequencerView.prototype.updateNoteMapping.call (this);
     this.updateScale ();
 };
 
@@ -70,7 +70,7 @@ RaindropsView.prototype.onGridNote = function (note, velocity)
 RaindropsView.prototype.onScene = function (index, event)
 {
     this.ongoingResolutionChange = true;
-    AbstractSequencerView.prototype.onScene.call (this, index, event);
+    BaseSequencerView.prototype.onScene.call (this, index, event);
     this.ongoingResolutionChange = false;    
 };
 

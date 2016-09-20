@@ -9,7 +9,7 @@ SequencerView.START_KEY        = 36;
 
 function SequencerView (model)
 {
-    BaseSequencerView.call (this, model, 128, SequencerView.NUM_DISPLAY_COLS);
+    AbstractSequencerView.call (this, model, 128, SequencerView.NUM_DISPLAY_COLS);
     
     this.loopPadPressed = -1;
     this.offsetY = SequencerView.START_KEY;
@@ -19,12 +19,12 @@ function SequencerView (model)
 
     this.clip.scrollTo (0, SequencerView.START_KEY);   
 }
-SequencerView.prototype = new BaseSequencerView ();
+SequencerView.prototype = new AbstractSequencerView ();
 
 SequencerView.prototype.onActivate = function ()
 {
     this.updateScale ();
-    BaseSequencerView.prototype.onActivate.call (this);
+    AbstractSequencerView.prototype.onActivate.call (this);
 };
 
 SequencerView.prototype.updateArrowStates = function ()

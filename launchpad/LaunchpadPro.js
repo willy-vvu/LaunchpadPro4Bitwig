@@ -110,6 +110,9 @@ function LaunchpadPro (output, input)
         this.gridNotes.push (i);
     
     this.shiftButtonId  = LAUNCHPAD_BUTTON_SHIFT;
+    this.deleteButtonId = LAUNCHPAD_BUTTON_DELETE;
+    this.soloButtonId   = LAUNCHPAD_BUTTON_SOLO;
+    this.muteButtonId   = LAUNCHPAD_BUTTON_MUTE;
 
     this.pads = new Grid (output);
     

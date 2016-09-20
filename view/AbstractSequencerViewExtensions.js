@@ -2,20 +2,13 @@
 // (c) 2014-2016
 // Licensed under LGPLv3 - http://www.gnu.org/licenses/lgpl-3.0.txt
 
-function BaseSequencerView (model, rows, cols)
-{
-    if (!model) // Called on first prototype creation
-        return;
-    AbstractSequencerView.call (this, model, rows, cols);
-    this.modeColor = LAUNCHPAD_COLOR_YELLOW;
-}
-BaseSequencerView.prototype = new AbstractSequencerView ();
+AbstractSequencerView.prototype.modeColor = LAUNCHPAD_COLOR_YELLOW;
 
-BaseSequencerView.prototype.onActivate = function ()
+AbstractSequencerView.prototype.onActivate = function ()
 {
     this.surface.setLaunchpadToPrgMode ();
 
-    AbstractSequencerView.prototype.onActivate.call (this);
+    AbstractView.prototype.onActivate.call (this);
 
     this.surface.setButton (LAUNCHPAD_BUTTON_SESSION, LAUNCHPAD_COLOR_GREY_LO);
     this.surface.setButton (LAUNCHPAD_BUTTON_NOTE, this.modeColor);
@@ -25,15 +18,16 @@ BaseSequencerView.prototype.onActivate = function ()
     this.updateIndication ();
 };
 
-BaseSequencerView.prototype.onScene = function (index, event)
+AbstractSequencerView.prototype.superOnScene = AbstractSequencerView.prototype.onScene;
+AbstractSequencerView.prototype.onScene = function (index, event)
 {
     if (!event.isDown () || !this.model.canSelectedTrackHoldNotes ())
         return;
-    AbstractSequencerView.prototype.onScene.call (this, index, event)
+    AbstractSequencerView.prototype.superOnScene.call (this, index, event)
     displayNotification (this.resolutionsStr[this.selectedIndex]);
 };
 
-BaseSequencerView.prototype.updateSceneButtons = function ()
+AbstractSequencerView.prototype.updateSceneButtons = function ()
 {
     if (this.model.canSelectedTrackHoldNotes ())
     {

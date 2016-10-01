@@ -38,7 +38,8 @@ AbstractView.prototype.updateIndication = function ()
 
 AbstractView.prototype.onShift = function (event)
 {
-    this.updateButtons ();
+    if (!event.isLong ())
+        this.updateButtons ();
 };
 
 AbstractView.prototype.onClick = function (event)

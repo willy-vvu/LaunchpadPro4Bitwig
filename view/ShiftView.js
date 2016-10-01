@@ -2,6 +2,8 @@
 // (c) 2015-2016
 // Licensed under LGPLv3 - http://www.gnu.org/licenses/lgpl-3.0.txt
 
+// Note: Only used for Launchpad MkII
+
 function ShiftView (model)
 {
     if (model == null)

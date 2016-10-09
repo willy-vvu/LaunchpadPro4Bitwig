@@ -6,15 +6,14 @@ function Controller ()
 {
     Config.init ();
 
-    var output = new MidiOutput ();
-    output.setShouldSendMidiBeatClock (true);    
-    var input = new LaunchpadMidiInput ();
-
     this.scales = new Scales (36, 100, 8, 8);
     this.model = new Model (-1, this.scales, 8, 8, 8, 6, 16, 16, true);
 
     this.model.getTrackBank ().addTrackSelectionListener (doObject (this, Controller.prototype.handleTrackChange));
     
+    var input = new MidiInput ();
+    var output = new MidiOutput ();
+    output.setShouldSendMidiBeatClock (true);    
     this.surface = new LaunchpadPro (output, input);
     
     this.surface.setLaunchpadToStandalone ();

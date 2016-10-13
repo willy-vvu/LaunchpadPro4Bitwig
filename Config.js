@@ -22,15 +22,7 @@ Config.sceneScrollInterval = 100;
 // Editable configurations
 // ------------------------------
 
-Config.SCALES_SCALE          = 0;
-Config.SCALES_BASE           = 1;
-Config.SCALES_IN_KEY         = 2;
-Config.SCALES_LAYOUT         = 3;
-Config.CONVERT_AFTERTOUCH    = 4;
-Config.BEHAVIOUR_ON_STOP     = 5;
-Config.SELECT_CLIP_ON_LAUNCH = 6;
-
-Config.initListeners (Config.SELECT_CLIP_ON_LAUNCH);
+Config.initListeners (Config.QUANTIZE_AMOUNT);
 
 Config.init = function ()
 {
@@ -43,6 +35,12 @@ Config.init = function ()
     Config.activateScaleBaseSetting (prefs);
     Config.activateScaleInScaleSetting (prefs);
     Config.activateScaleLayoutSetting (prefs);
+    
+    ///////////////////////////
+    // Workflow
+
+    Config.activateBehaviourOnStopSetting (prefs);
+    Config.activateSelectClipOnLaunchSetting (prefs);
 
     ///////////////////////////
     // Pad Sensitivity
@@ -50,8 +48,7 @@ Config.init = function ()
     Config.activateConvertAftertouchSetting (prefs);
     
     ///////////////////////////
-    // Workflow
+    // Play and Sequencer
 
-    Config.activateBehaviourOnStopSetting (prefs);
-    Config.activateSelectClipOnLaunchSetting (prefs);
+    Config.activateQuantizeAmountSetting (prefs);
 };

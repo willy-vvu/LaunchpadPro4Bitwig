@@ -73,10 +73,9 @@ AbstractView.prototype.onQuantize = function (event)
     if (!event.isDown ())
         return;
     
-    // TODO API Extension required: Rec Quantise not supported
-    // if (this.surface.isShiftPressed ())
-    // else
-    this.model.getApplication ().quantize ();
+    // We can use any cursor clip, e.g. the one of the drum view
+    var view = this.surface.getView (VIEW_DRUM);
+    view.clip.quantize (Config.quantizeAmount / 100);
 };
 
 AbstractView.prototype.onDuplicate = function (event)

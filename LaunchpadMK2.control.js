@@ -55,7 +55,7 @@ LAUNCHPAD_BUTTONS_ALL =
 // This is the only global variable, do not use it.
 var controller = null;
 
-host.defineController ("Novation", "LaunchpadMK24Bitwig", "1.11", "4E01A0B0-67B1-11E5-A837-0800200C9A66", "Jürgen Moßgraber");
+host.defineController ("Novation", "LaunchpadMK24Bitwig", "1.12", "4E01A0B0-67B1-11E5-A837-0800200C9A66", "Jürgen Moßgraber");
 host.defineMidiPorts (1, 1);
 
 host.platformIsWindows () && host.addDeviceNameBasedDiscoveryPair (["Launchpad MK2"], ["Launchpad MK2"]);

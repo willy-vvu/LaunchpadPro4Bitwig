@@ -6,7 +6,7 @@ AbstractView.prototype.stopPressed = false;
 AbstractView.prototype.showDevices = true;
 AbstractView.prototype.lastAbstractDeviceMode = 0;
 AbstractView.prototype.cursorColor = LAUNCHPAD_COLOR_OCEAN_HI;
-    
+
 AbstractView.firstRowUsed  = false;
 AbstractView.temporaryView = false;
 
@@ -17,7 +17,7 @@ AbstractView.prototype.updateIndication = function ()
     var isSends  = this.surface.isActiveView (VIEW_SENDS);
     var isDevice = this.surface.isActiveView (VIEW_DEVICE);
     var view     = this.surface.getActiveView ();
-    
+
     var tb = this.model.getCurrentTrackBank ();
     for (var i = 0; i < 8; i++)
     {
@@ -72,7 +72,7 @@ AbstractView.prototype.onQuantize = function (event)
 {
     if (!event.isDown ())
         return;
-    
+
     // We can use any cursor clip, e.g. the one of the drum view
     var view = this.surface.getView (VIEW_DRUM);
     view.clip.quantize (Config.quantizeAmount / 100);
@@ -82,10 +82,10 @@ AbstractView.prototype.onDuplicate = function (event)
 {
     if (!event.isDown ())
         return;
-    
+
     if (this.surface.isShiftPressed ())
         this.model.getTransport ().toggleLoop ();
-    else    
+    else
         this.model.getApplication ().duplicate ();
 };
 
@@ -93,7 +93,7 @@ AbstractView.prototype.onDouble = function (event)
 {
     if (!event.isDown ())
         return;
-    
+
     if (this.surface.isShiftPressed ())
     {
         this.handlePlayOptions ();
@@ -112,7 +112,7 @@ AbstractView.prototype.newClip = function ()
         displayNotification ("Please select an Instrument track first.");
         return;
     }
-        
+
     var selectedSlot = tb.getSelectedSlot (track.index);
     var slotIndex = selectedSlot == null ? 0 : selectedSlot.index;
     var slot = tb.getEmptySlot (track.index, slotIndex);
@@ -121,8 +121,7 @@ AbstractView.prototype.newClip = function ()
         displayNotification ("In the current selected grid view there is no empty slot. Please scroll down.");
         return;
     }
-    
-    tb.createClip (track.index, slot.index, this.model.getQuartersPerMeasure ());
+
     var slots = tb.getClipLauncherSlots (track.index);
     if (slotIndex != slot.index)
         slots.select (slot.index);
@@ -135,9 +134,41 @@ AbstractView.prototype.onRecord = function (event)
     if (!event.isDown ())
         return;
     if (this.surface.isShiftPressed ())
-        this.model.getTransport ().toggleLauncherOverdub ();
-    else
         this.model.getTransport ().record ();
+    else
+        this.recordClip()
+};
+
+AbstractView.prototype.recordClip = function ()
+{
+    var tb = this.model.getCurrentTrackBank ();
+    var track = tb.getSelectedTrack ();
+    if (track == null)
+    {
+        displayNotification ("Please select an Instrument track first.");
+        return;
+    }
+
+    var selectedSlot = tb.getSelectedSlot (track.index);
+    var slotIndex = selectedSlot == null ? 0 : selectedSlot.index;
+    var slot = track.slots[slotIndex];
+    var slots = tb.getClipLauncherSlots (track.index);
+
+    if (slot.hasContent){
+        if (slot.isRecording){
+            slots.launch (slotIndex);
+            this.model.getTransport ().setLauncherOverdub (false);
+        }
+        else{
+            this.model.getTransport ().toggleLauncherOverdub ();
+        }
+    }
+    else {
+        if (!slot.isRecording){
+            slots.launch (slotIndex);
+            this.model.getTransport ().setLauncherOverdub (true);
+        }
+    }
 };
 
 //--------------------------------------
@@ -192,7 +223,7 @@ AbstractView.prototype.onStopClip = function (event)
         this.model.getCurrentTrackBank ().getClipLauncherScenes ().stop ();
         return;
     }
-    
+
     this.onModeButton (event, CONTROL_MODE_STOP_CLIP, "Stop Clip");
 };
 
@@ -218,7 +249,7 @@ AbstractView.prototype.onFaderModeButton = function (event, view, notification)
 {
     if (event.isDown ())
     {
-        if (this.surface.isActiveView (view))        
+        if (this.surface.isActiveView (view))
         {
             this.surface.restoreView ();
         }
@@ -290,7 +321,7 @@ AbstractView.prototype.onNote = function (event)
 {
     if (!event.isDown ())
         return;
-        
+
     var viewID = VIEW_PLAY;
     if (this.isNoteViewActive ())
     {
@@ -316,7 +347,7 @@ AbstractView.prototype.onNote = function (event)
 
 AbstractView.prototype.isNoteViewActive = function ()
 {
-    return this.surface.isActiveView (VIEW_PLAY) || 
+    return this.surface.isActiveView (VIEW_PLAY) ||
            this.surface.isActiveView (VIEW_DRUM) ||
            this.surface.isActiveView (VIEW_SEQUENCER) ||
            this.surface.isActiveView (VIEW_RAINDROPS) ||
@@ -332,7 +363,7 @@ AbstractView.prototype.onDevice = function (event)
 {
     if (!event.isDown ())
         return;
-    
+
     if (this.surface.isActiveView (VIEW_DEVICE))
     {
         this.model.getBrowser ().browseForPresets ();
@@ -342,7 +373,7 @@ AbstractView.prototype.onDevice = function (event)
 
     if (this.surface.isActiveView (VIEW_BROWSER))
         this.model.getBrowser ().stopBrowsing (false);
-    
+
     this.surface.setActiveView (VIEW_DEVICE);
 };
 
@@ -357,7 +388,7 @@ AbstractView.prototype.onUser = function (event)
 };
 
 AbstractView.prototype.switchToBrowseView = function ()
-{        
+{
     if (this.model.getBrowser ().getPresetSession ().isActive)
         this.surface.setActiveView (VIEW_BROWSER);
 };
@@ -374,7 +405,7 @@ AbstractView.prototype.updateButtons = function ()
         return;
     }
     this.surface.setButton (LAUNCHPAD_BUTTON_USER, LAUNCHPAD_COLOR_BLACK);
-    
+
     var isShift = this.surface.isShiftPressed ();
     var selTrack = this.model.getCurrentTrackBank ().getSelectedTrack ();
     var index = selTrack == null ? -1 : selTrack.index;
